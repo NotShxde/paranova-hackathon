@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constitution of India</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Vis.js for Knowledge Graph -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <div id="app-layout">
+        <nav id="sidebar">
+            <header style="padding: 2rem 1rem; text-align: left;">
+                <div class="menu-icon" style="cursor: pointer; display: inline-block;">
+                    <div style="width: 25px; height: 3px; background-color: var(--color-gold); margin: 5px 0; border-radius: 3px;"></div>
+                    <div style="width: 20px; height: 3px; background-color: var(--color-gold); margin: 5px 0; border-radius: 3px;"></div>
+                    <div style="width: 25px; height: 3px; background-color: var(--color-gold); margin: 5px 0; border-radius: 3px;"></div>
+                </div>
+            </header>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" data-view="home-view">Dashboard</button></li>
+                <li><button class="nav-btn" data-view="list-view">Explore Directory</button></li>
+                <li><button class="nav-btn" data-view="flashcards-view">Mastery Flashcards</button></li>
+                <li><button class="nav-btn" data-view="custom-test-view">Custom Training</button></li>
+                <li><button class="nav-btn" data-view="argument-view">Argument Trainer</button></li>
+                <li><button class="nav-btn" data-view="analytics-view">AI Analytics</button></li>
+            </ul>
+        </nav>
+
+        <main id="main-content">
+            <!-- Home View -->
+            <section id="home-view" class="view active">
+                <div class="hero-section glass-panel">
+                    <div class="hero-content">
+                        <h2 class="hero-title serif">Reimagine Learning Constitution Through <span class="text-gold">LawQ</span></h2>
+                        <p class="hero-subtitle">Master the Indian Constitution through spaced repetition, deep analytics, and AI-driven argument training.</p>
+                        <div class="hero-actions">
+                            <button class="btn btn-primary btn-glow" onclick="document.querySelector('[data-view=\'list-view\']').click()">Explore Directory</button>
+                            <button class="btn btn-glass" onclick="document.querySelector('[data-view=\'flashcards-view\']').click()">Start Mastery</button>
+                        </div>
+                        
+                        <!-- Search Bar -->
+                        <div class="hero-search-container mt-4">
+                            <div class="search-bar glass-panel">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                <input type="text" id="global-search" placeholder="Search articles, cases, and doctrines..." oninput="handleSearch(this.value)">
+                            </div>
+                            <div class="search-dropdown glass-panel" id="search-dropdown" style="display: none;">
+                                <ul id="search-results-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid mt-4">
+                    <div class="dash-card glass-card">
+                        <div class="dash-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+                        <div class="dash-value" id="stat-total-articles">0</div>
+                        <div class="dash-label">Articles & Cases</div>
+                    </div>
+                    <div class="dash-card glass-card">
+                        <div class="dash-icon"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ff6b6b;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                        <div class="dash-value" id="stat-due-cards">0</div>
+                        <div class="dash-label" style="color: #ff6b6b;">Pending Reviews</div>
+                    </div>
+                </div>
+
+                <div class="quick-actions-grid mt-4">
+                    <div class="action-card glass-card hover-lift" onclick="document.querySelector('[data-view=\'flashcards-view\']').click()">
+                        <div class="action-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                        <h3 class="text-gold">Review Mastery</h3>
+                        <p class="text-muted text-sm">Clear your spaced repetition queue and reinforce learning.</p>
+                    </div>
+                    <div class="action-card glass-card hover-lift" onclick="document.querySelector('[data-view=\'custom-test-view\']').click()">
+                        <div class="action-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+                        <h3 class="text-gold">Custom Training</h3>
+                        <p class="text-muted text-sm">Target specific doctrines, acts, and concepts dynamically.</p>
+                    </div>
+                    <div class="action-card glass-card hover-lift" onclick="document.querySelector('[data-view=\'argument-view\']').click()">
+                        <div class="action-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+                        <h3 class="text-gold">Draft Judgments</h3>
+                        <p class="text-muted text-sm">Test arguments with real-time AI feedback and insights.</p>
+                    </div>
+                    <div class="action-card glass-card hover-lift" onclick="document.querySelector('[data-view=\'analytics-view\']').click()">
+                        <div class="action-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gold"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                        <h3 class="text-gold">AI Analytics</h3>
+                        <p class="text-muted text-sm">Discover your personalized learning path and metrics.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- List View -->
+            <section id="list-view" class="view">
+                <div class="view-header">
+                    <h2 class="serif" style="font-size: 2rem; margin-bottom: 1rem;">Constitution Directory</h2>
+                    <div id="filter-container" style="display: none; margin-bottom: 1rem;">
+                        <div class="filter-badge">
+                            <span id="current-filter-text">Tag</span>
+                            <span class="clear-filter" id="btn-clear-filter">×</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-grid" id="article-list-container">
+                    <!-- Cards will be injected here via JS -->
+                </div>
+            </section>
+
+            <!-- Article Detail View -->
+            <section id="article-view" class="view">
+                <div class="back-btn-container">
+                    <button id="btn-back-list" class="btn">← Back to Directory</button>
+                </div>
+                
+                <div id="article-content">
+                    <!-- Content injected here via JS -->
+                </div>
+            </section>
+
+            <!-- Case Detail View -->
+            <section id="case-view" class="view">
+                <div class="back-btn-container">
+                    <button id="btn-back-article" class="btn">← Back</button>
+                </div>
+                
+                <div id="case-content">
+                    <!-- Case injected here via JS -->
+                </div>
+            </section>
+
+            <!-- Flashcards View -->
+            <section id="flashcards-view" class="view">
+                <div class="view-header">
+                    <h2 class="serif" style="font-size: 2rem; margin-bottom: 1rem;">Spaced Repetition Mastery</h2>
+                </div>
+                
+                <div id="flashcard-container" class="flashcard-container">
+                    <!-- Flashcard injected here via JS -->
+                </div>
+            </section>
+
+            <!-- Custom Test View -->
+            <section id="custom-test-view" class="view">
+                <div class="view-header">
+                    <h2 class="serif" style="font-size: 2rem; margin-bottom: 1rem;">Custom Training</h2>
+                    <p class="text-muted" style="margin-bottom: 2rem;">Select tags to generate a targeted flashcard session.</p>
+                </div>
+                
+                <div class="tags-selection" id="tags-selection-container">
+                    <!-- Tags injected via JS -->
+                </div>
+                
+                <button id="btn-start-custom" class="btn btn-primary" style="margin-top: 1.5rem;" disabled>Start Training</button>
+            </section>
+
+            <!-- Argument Trainer View -->
+            <section id="argument-view" class="view">
+                <div class="view-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="serif" style="font-size: 2rem;">Train Arguments & Consistency</h2>
+                    <div class="api-key-container">
+                        <input type="password" id="gemini-api-key" placeholder="Enter Gemini API Key..." class="api-input">
+                        <button id="btn-save-key" class="btn" style="padding: 0.5rem 1rem;">Save Key</button>
+                    </div>
+                </div>
+
+                <div class="argument-trainer-grid">
+                    <!-- Left Column: Topic & Input -->
+                    <div class="trainer-left">
+                        <div class="topic-panel">
+                            <h3 class="serif text-gold" id="trainer-case-title">Loading Topic...</h3>
+                            <div class="topic-facts">
+                                <h4 style="color: var(--color-gold-dark); margin-bottom: 0.5rem;">Facts of the Case</h4>
+                                <p id="trainer-facts" class="text-muted"></p>
+                            </div>
+                            <div class="topic-issue">
+                                <h4 style="color: var(--color-gold-dark); margin-bottom: 0.5rem; margin-top: 1rem;">The Core Issue</h4>
+                                <p id="trainer-issue"></p>
+                            </div>
+                        </div>
+
+                        <div class="input-panel">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-gold-light);">Draft Your Judgment</h4>
+                            <textarea id="user-argument-input" placeholder="Based on the Constitution, write your verdict and reasoning here..."></textarea>
+                            <button id="btn-submit-argument" class="btn btn-primary" style="width: 100%;">Evaluate Argument</button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Feedback & Graph -->
+                    <div class="trainer-right">
+                        <div class="feedback-panel">
+                            <h3 style="color: var(--color-gold-light); margin-bottom: 1rem;">AI Evaluation & Verdict</h3>
+                            <div id="ai-feedback-content" class="feedback-content">
+                                <p class="text-muted">Submit your argument to see the AI's constitutional evaluation and the actual historical verdict.</p>
+                            </div>
+                        </div>
+
+                        <div class="graph-panel">
+                            <h3 style="color: var(--color-gold-light); margin-bottom: 1rem;">Knowledge Graph</h3>
+                            <div id="knowledge-graph" class="graph-container">
+                                <!-- vis.js renders here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="analytics-view" class="view">
+                <div class="view-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <div>
+                        <h2 class="serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;">AI Learning Analytics</h2>
+                        <p class="text-muted">A comprehensive analysis of your strengths, weaknesses, and a personalized learning path.</p>
+                    </div>
+                    <button id="btn-generate-analytics" class="btn btn-primary" style="padding: 1rem 2rem;">Analyze My Progress</button>
+                </div>
+                
+                <div id="analytics-report-container" class="analytics-report" style="display: none;">
+                    <!-- AI Report Injected Here -->
+                </div>
+                
+                <div id="analytics-loading" style="display: none; text-align: center; padding: 4rem;">
+                    <h3 class="serif text-gold">Consulting the AI Tutor...</h3>
+                    <p class="text-muted">Analyzing your spaced repetition data and argument history.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="db.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
