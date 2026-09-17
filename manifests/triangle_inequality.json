@@ -1,0 +1,35 @@
+{
+  "theorem_id": "triangle_inequality",
+  "title": "Triangle Inequality",
+  "origin_story": "Euclid proved in Elements (Book 1, Proposition 20) that in any triangle, the sum of the lengths of any two sides must be strictly greater than the length of the remaining side.",
+  "visual_parameters": [
+    {
+      "name": "Side a",
+      "type": "slider",
+      "min": 1,
+      "max": 10,
+      "default": 3
+    },
+    {
+      "name": "Side b",
+      "type": "slider",
+      "min": 1,
+      "max": 10,
+      "default": 4
+    },
+    {
+      "name": "Side c",
+      "type": "slider",
+      "min": 1,
+      "max": 10,
+      "default": 5
+    }
+  ],
+  "insight_challenge": {
+    "description": "Formulate a mathematical or formal statement that proves side c is always less than a + b.",
+    "evaluation_rules": {
+      "sympy": "Provide an algebraic inequality involving a, b, c.",
+      "lean": "Provide a Lean 4 statement to prove the condition."
+    }
+  }
+}
